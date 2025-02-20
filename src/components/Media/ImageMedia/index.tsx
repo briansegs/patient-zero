@@ -55,6 +55,14 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
         .join(', ')
 
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || `https://${process.env.VERCEL_URL}`
+
+  if (typeof src === 'string' && src.startsWith('/')) {
+    src = `${baseUrl}${src}`
+  }
+
+  const cleanedSrc = typeof src === 'string' && src.startsWith('http') ? src : `${baseUrl}${src}`
+
   return (
     <picture>
       <NextImage
@@ -68,7 +76,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         quality={100}
         loading={loading}
         sizes={sizes}
-        src={src}
+        src={cleanedSrc}
         width={!fill ? width : undefined}
       />
     </picture>
