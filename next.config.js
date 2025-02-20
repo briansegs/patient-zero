@@ -2,24 +2,34 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 import redirects from './redirects.js'
 
+// Ensure NEXT_PUBLIC_SERVER_URL and VERCEL_URL are valid URLs
 const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : undefined || process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+  : process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
 
-const VERCEL_URL = process.env.VERCEL_URL
+// VERCEL_URL may be set as a wildcard, so we manually allow all Vercel domains
+const VERCEL_DOMAINS = ['vercel.app'] // Allows all *.vercel.app domains
 
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   images: {
     remotePatterns: [
-      ...[NEXT_PUBLIC_SERVER_URL, VERCEL_URL].map((item) => {
-        const url = new URL(item)
+      // Allow main server URL if it's valid
+      ...(NEXT_PUBLIC_SERVER_URL
+        ? [
+            {
+              hostname: new URL(NEXT_PUBLIC_SERVER_URL).hostname,
+              protocol: 'https',
+            },
+          ]
+        : []),
 
-        return {
-          hostname: url.hostname,
-          protocol: url.protocol.replace(':', ''),
-        }
-      }),
+      // Allow all Vercel deployments (*.vercel.app)
+      ...VERCEL_DOMAINS.map((domain) => ({
+        hostname: `*.${domain}`,
+        protocol: 'https',
+      })),
     ],
   },
   reactStrictMode: true,
