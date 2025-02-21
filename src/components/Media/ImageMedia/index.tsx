@@ -3,15 +3,19 @@
 import type { StaticImageData } from 'next/image'
 
 import { cn } from '@/utilities/ui'
-import NextImage from 'next/image'
 import React from 'react'
 
 import type { Props as MediaProps } from '../types'
 
 import { cssVariables } from '@/cssVariables'
-import { getClientSideURL } from '@/utilities/getURL'
+
+import { CldImage } from 'next-cloudinary'
 
 const { breakpoints } = cssVariables
+
+function extractFileName(url: string): string {
+  return url.split('/').pop() || ''
+}
 
 // A base64 encoded image to use as a placeholder while the image is loading
 const placeholderBlur =
@@ -41,9 +45,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     height = fullHeight!
     alt = altFromResource || ''
 
-    const cacheTag = resource.updatedAt
-
-    src = `${getClientSideURL()}${url}?${cacheTag}`
+    src = extractFileName(`${url}`)
   }
 
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)
@@ -56,21 +58,22 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .join(', ')
 
   return (
-    <picture>
-      <NextImage
-        alt={alt || ''}
-        className={cn(imgClassName)}
-        fill={fill}
-        height={!fill ? height : undefined}
-        placeholder="blur"
-        blurDataURL={placeholderBlur}
-        priority={priority}
-        quality={100}
-        loading={loading}
-        sizes={sizes}
-        src={src}
-        width={!fill ? width : undefined}
-      />
+    <picture className="static">
+      {src ? (
+        <CldImage
+          alt={alt || ''}
+          fill={fill}
+          width={!fill ? width : undefined}
+          height={!fill ? height : undefined}
+          src={typeof src === 'string' ? src : src.src}
+          className={cn(imgClassName)}
+          sizes={sizes}
+          placeholder="blur"
+          blurDataURL={placeholderBlur}
+          quality={100}
+          loading={loading}
+        />
+      ) : null}
     </picture>
   )
 }
