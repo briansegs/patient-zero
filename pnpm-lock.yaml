@@ -23,9 +23,6 @@ importers:
       '@payloadcms/payload-cloud':
         specifier: latest
         version: 3.24.0(payload@3.24.0(graphql@16.10.0)(typescript@5.7.3))
-      '@payloadcms/plugin-cloud-storage':
-        specifier: 3.24.0
-        version: 3.24.0(payload@3.24.0(graphql@16.10.0)(typescript@5.7.3))
       '@payloadcms/plugin-form-builder':
         specifier: latest
         version: 3.24.0(@types/react@19.0.7)(monaco-editor@0.52.2)(next@15.1.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4))(payload@3.24.0(graphql@16.10.0)(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3)
@@ -90,7 +87,7 @@ importers:
         specifier: ^4.2.3
         version: 4.2.3(next@15.1.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4))
       payload:
-        specifier: ^3.23.0
+        specifier: latest
         version: 3.24.0(graphql@16.10.0)(typescript@5.7.3)
       payload-admin-bar:
         specifier: ^1.0.6
@@ -98,12 +95,6 @@ importers:
       payload-cloudinary:
         specifier: ^1.5.0
         version: 1.5.0(payload@3.24.0(graphql@16.10.0)(typescript@5.7.3))(typescript@5.7.3)
-      plugin-cloud-storage@3.23.0:
-        specifier: link:payloadcms/plugin-cloud-storage@3.23.0
-        version: link:payloadcms/plugin-cloud-storage@3.23.0
-      plugin-cloud-storage@3.24.0:
-        specifier: link:payloadcms/plugin-cloud-storage@3.24.0
-        version: link:payloadcms/plugin-cloud-storage@3.24.0
       prism-react-renderer:
         specifier: ^2.3.1
         version: 2.4.1(react@19.0.0)
@@ -9550,7 +9541,7 @@ snapshots:
   tsx@4.19.2:
     dependencies:
       esbuild: 0.23.1
-      get-tsconfig: 4.8.1
+      get-tsconfig: 4.10.0
     optionalDependencies:
       fsevents: 2.3.3
 
