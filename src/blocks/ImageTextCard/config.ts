@@ -33,6 +33,22 @@ export const ImageTextCard: Block = {
       relationTo: 'media',
       required: true,
     },
+    {
+      name: 'layout',
+      type: 'select',
+      defaultValue: 'left',
+      label: 'Layout',
+      options: [
+        {
+          label: 'Left',
+          value: 'left',
+        },
+        {
+          label: 'Right',
+          value: 'right',
+        },
+      ],
+    },
   ],
   labels: {
     plural: 'Image Text Cards',
