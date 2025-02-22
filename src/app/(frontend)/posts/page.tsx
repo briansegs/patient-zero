@@ -24,14 +24,15 @@ export default async function Page() {
       slug: true,
       categories: true,
       meta: true,
+      heroImage: true,
     },
   })
 
   return (
-    <div className="pt-24 pb-24">
+    <div className="pb-24 pt-24">
       <PageClient />
       <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none">
+        <div className="prose max-w-none dark:prose-invert">
           <h1>Posts</h1>
         </div>
       </div>
