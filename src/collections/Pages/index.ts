@@ -21,6 +21,8 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 
+import { ImageTextCard } from '@/blocks/ImageTextCard/config'
+
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   access: {
@@ -75,7 +77,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
+              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, ImageTextCard],
               required: true,
               admin: {
                 initCollapsed: true,
