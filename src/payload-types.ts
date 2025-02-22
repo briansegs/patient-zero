@@ -1700,3 +1700,29 @@ export interface Auth {
 declare module 'payload' {
   export interface GeneratedTypes extends Config {}
 }
+
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BannerBlock".
+ */
+export interface ImageTextCardBlock {
+  id?: string | null
+  blockName?: string | null
+  blockType: 'ITC'
+  richText?: {
+    root: {
+      type: string
+      children: {
+        type: string
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  } | null
+  media: string | Media
+}
