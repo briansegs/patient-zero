@@ -1725,4 +1725,5 @@ export interface ImageTextCardBlock {
     [k: string]: unknown
   } | null
   media: string | Media
+  layout: 'left' | 'right'
 }
