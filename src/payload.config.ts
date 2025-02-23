@@ -27,10 +27,21 @@ export default buildConfig({
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
-      beforeLogin: ['@/components/BeforeLogin'],
+      // beforeLogin: ['@/components/BeforeLogin'],
       // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below and the import `BeforeDashboard` statement on line 15.
-      beforeDashboard: ['@/components/BeforeDashboard'],
+      // beforeDashboard: ['@/components/BeforeDashboard'],
+
+      // Logo and Icon
+      graphics: {
+        Icon: 'src/components/Graphics/PZIcon.tsx#Icon',
+        Logo: 'src/components/Graphics/PZLogo.tsx#Logo',
+      },
+    },
+    meta: {
+      description: 'Patient Zero CMS',
+      icons: [{ type: 'image/png', rel: 'icon', url: '/favicon.svg' }],
+      titleSuffix: '- Patient Zero',
     },
     importMap: {
       baseDir: path.resolve(dirname),
