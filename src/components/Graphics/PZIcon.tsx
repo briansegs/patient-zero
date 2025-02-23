@@ -3,15 +3,13 @@ import React from 'react'
 
 export const Icon = () => {
   return (
-    /* eslint-disable @next/next/no-img-element */
+    // eslint-disable-next-line @next/next/no-img-element
     <img
       alt="Patient Zero Icon"
-      width={250}
-      height={50}
       loading={'eager'}
       fetchPriority={'high'}
       decoding="async"
-      className={clsx('h-[34px] w-full max-w-[20rem]')}
+      className={clsx('size-full rounded-lg dark:bg-neutral-100 dark:pb-[.5px]')}
       src="/Patient-Zero_Icon.svg"
     />
   )
