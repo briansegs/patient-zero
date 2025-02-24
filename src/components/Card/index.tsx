@@ -38,8 +38,11 @@ export const Card: React.FC<{
       ref={card.ref}
     >
       <div className="relative w-full">
-        {!metaImage && <div className="">No image</div>}
+        {!metaImage && !meta?.image && <div className="">No image</div>}
         {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} size="33vw" />}
+        {meta?.image && typeof metaImage !== 'string' && (
+          <Media resource={meta.image} size="33vw" />
+        )}
       </div>
       <div className="p-4">
         {showCategories && hasCategories && (
