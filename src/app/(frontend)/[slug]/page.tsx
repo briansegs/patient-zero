@@ -49,8 +49,15 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = 'home' } = await paramsPromise
   const url = '/' + slug
-
   const { userId } = await auth()
+
+  if (!userId) {
+    return (
+      <div className="pb-24 pt-16">
+        <SignInSignSignUp />
+      </div>
+    )
+  }
 
   let page: RequiredDataFromCollectionSlug<'pages'> | null
 
@@ -76,14 +83,8 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
-      {userId ? (
-        <>
-          <RenderHero {...hero} />
-          <RenderBlocks blocks={layout} />
-        </>
-      ) : (
-        <SignInSignSignUp />
-      )}
+      <RenderHero {...hero} />
+      <RenderBlocks blocks={layout} />
     </article>
   )
 }
@@ -94,7 +95,16 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     slug,
   })
 
-  return generateMeta({ doc: page })
+  const updatedPage = {
+    ...page,
+    meta: {
+      ...page?.meta,
+      title: slug,
+      description: 'A block built with Payload and Next.js',
+    },
+  }
+
+  return generateMeta({ doc: updatedPage })
 }
 
 const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
