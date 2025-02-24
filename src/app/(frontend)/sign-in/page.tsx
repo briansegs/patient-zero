@@ -6,10 +6,14 @@ import PageClient from './page.client'
 import React from 'react'
 
 const SignIn = async () => {
-  const { userId } = await auth()
+  try {
+    const { userId } = await auth()
 
-  if (userId) {
-    redirect('/')
+    if (userId) {
+      redirect('/')
+    }
+  } catch (error) {
+    console.error('Authentication error: ', error)
   }
 
   return (
