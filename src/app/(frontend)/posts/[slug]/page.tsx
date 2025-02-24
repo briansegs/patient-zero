@@ -47,10 +47,10 @@ export default async function Post({ params: paramsPromise }: Args) {
   const url = '/posts/' + slug
   const post = await queryPostBySlug({ slug })
 
-  if (!post) return <PayloadRedirects url={url} />
+  if (!post || !post.id) return <PayloadRedirects url={url} />
 
   return (
-    <article className="pt-16 pb-16">
+    <article className="pb-16 pt-16">
       <PageClient />
 
       {/* Allows redirects for valid pages too */}
@@ -62,11 +62,26 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
-          <RichText className="max-w-[48rem] mx-auto" data={post.content} enableGutter={false} />
+          <RichText
+            className="mx-auto max-w-[48rem]"
+            data={
+              post.content || {
+                root: {
+                  type: '',
+                  children: [],
+                  direction: null,
+                  format: '',
+                  indent: 0,
+                  version: 0,
+                },
+              }
+            }
+            enableGutter={false}
+          />
           {post.relatedPosts && post.relatedPosts.length > 0 && (
             <RelatedPosts
-              className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
-              docs={post.relatedPosts.filter((post) => typeof post === 'object')}
+              className="col-span-3 col-start-1 mt-12 max-w-[52rem] grid-rows-[2fr] lg:grid lg:grid-cols-subgrid"
+              docs={post.relatedPosts.filter((post) => typeof post === 'object') as Post[]}
             />
           )}
         </div>
@@ -100,5 +115,54 @@ const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
     },
   })
 
-  return result.docs?.[0] || null
+  const post = result.docs?.[0] || null
+
+  if (post && post.id) {
+    const relatedPosts = post.relatedPosts || []
+
+    const relatedSlugs = relatedPosts?.map((post) => (typeof post === 'string' ? post : post.slug))
+
+    const relatedPages = await payload.find({
+      collection: 'posts',
+      draft,
+      overrideAccess: draft,
+      pagination: false,
+      where: {
+        slug: {
+          in: relatedSlugs,
+        },
+      },
+    })
+
+    const slugToImageMap = relatedPages.docs.reduce(
+      (map, page) => {
+        if (page.slug) {
+          map[page.slug] = page.heroImage || null
+        }
+        return map
+      },
+      {} as Record<string, Post['heroImage']>,
+    )
+
+    const updatedRelatedPosts = relatedPosts.map((post) => {
+      const postSlug = typeof post === 'string' ? post : post.slug
+
+      if (postSlug && typeof post !== 'string') {
+        const newImage = slugToImageMap[postSlug]
+
+        return {
+          ...post,
+          meta: {
+            ...post.meta,
+            image: newImage,
+          },
+        }
+      }
+      return post
+    })
+
+    return { ...post, relatedPosts: updatedRelatedPosts }
+  }
+
+  return null
 })
