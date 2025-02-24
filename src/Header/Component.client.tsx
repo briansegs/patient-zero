@@ -9,7 +9,7 @@ import type { Header } from '@/payload-types'
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
 
-import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { SignedIn, UserButton } from '@clerk/nextjs'
 
 interface HeaderClientProps {
   data: Header
@@ -37,16 +37,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         <Link href="/">
           <Logo loading="eager" priority="high" className="invert dark:invert-0" />
         </Link>
-        <div className="flex items-center gap-2">
-          <HeaderNav data={data} />
-          <SignedOut>
-            <div className="flex gap-2 text-white">
-              <SignInButton />
-              {'/'}
-              <SignUpButton />
-            </div>
-          </SignedOut>
+
+        <div className="flex items-center gap-4">
           <SignedIn>
+            <HeaderNav data={data} />
+
             <UserButton />
           </SignedIn>
         </div>
