@@ -13,7 +13,7 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { auth } from '@clerk/nextjs/server'
-import SignInSignSignUp from '@/components/SignInSignSignUp/SignInSignSignUp'
+import { redirect } from 'next/navigation'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -52,11 +52,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { userId } = await auth()
 
   if (!userId) {
-    return (
-      <div className="pb-24 pt-16">
-        <SignInSignSignUp />
-      </div>
-    )
+    redirect('/sign-in')
   }
 
   let page: RequiredDataFromCollectionSlug<'pages'> | null
