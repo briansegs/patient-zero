@@ -1,21 +1,9 @@
 import { Button } from '@/components/ui/button'
 import { SignInButton, SignUpButton } from '@clerk/nextjs'
-import { auth } from '@clerk/nextjs/server'
-import { redirect } from 'next/navigation'
 import PageClient from './page.client'
 import React from 'react'
 
 const SignIn = async () => {
-  try {
-    const { userId } = await auth()
-
-    if (userId) {
-      redirect('/')
-    }
-  } catch (error) {
-    console.error('Authentication error: ', error)
-  }
-
   return (
     <div className="pb-24 pt-16">
       <PageClient />
