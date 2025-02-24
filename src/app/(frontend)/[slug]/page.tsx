@@ -95,8 +95,10 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     ...page,
     meta: {
       ...page?.meta,
-      title: slug,
-      description: 'A block built with Payload and Next.js',
+      title: page?.meta?.title || page?.title || slug,
+      description:
+        page?.meta?.description ||
+        `${page?.title || slug} - A block built with Payload and Next.js`,
     },
   }
 
