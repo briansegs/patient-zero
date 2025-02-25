@@ -11,18 +11,22 @@ const SignIn = async () => {
         <div className="container mt-28 flex h-full flex-col items-center justify-center gap-6">
           <h1 className="text-2xl font-bold">Sign in or sign up to gain access.</h1>
           <div className="flex gap-4">
-            <Button size={'lg'} variant={'default'} aria-label="Sign in to your account">
-              <SignInButton />
-            </Button>
+            <SignInButton>
+              <Button size={'lg'} variant={'default'} aria-label="Sign in to your account">
+                Sign in
+              </Button>
+            </SignInButton>
 
-            <Button
-              className={'text-black dark:text-white'}
-              size={'lg'}
-              variant={'outline'}
-              aria-label="Create a new account"
-            >
-              <SignUpButton />
-            </Button>
+            <SignUpButton>
+              <Button
+                className={'text-black dark:text-white'}
+                size={'lg'}
+                variant={'outline'}
+                aria-label="Create a new account"
+              >
+                Sign up
+              </Button>
+            </SignUpButton>
           </div>
         </div>
       </div>
